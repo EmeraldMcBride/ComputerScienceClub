@@ -1,0 +1,118 @@
+{% include 'base.html' %}
+ {% load static %}
+
+
+{%block head%}
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'news/news.css' %}">
+    <title> {{ news.title }} </title>
+
+<style>
+  .container{
+    width: 60em;
+    padding-right: 50px;
+    padding-left: 50px;
+    background-color: white;
+    border: solid 1px #dfe0e1;
+    margin: auto;
+    margin-top: 6.25em;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    margin-bottom: 70px;
+    margin-top: 70px;
+    min-height: 400px;
+}
+.button-wrapper{
+    display: inline-block;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    height: 40px;
+    width: 150px;
+    border:none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #d41f55;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+select {
+    height: 30px;
+}
+
+.button-wrapper > a{
+    text-decoration: none;
+    color: white;
+}
+
+.buttons {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.one{
+  width:30%;
+  float: left;
+  margin: 5%;
+  margin-right: 5%;
+}
+.two{
+    width:30%;
+    float: left;
+    margin: 5%;
+    margin-left: 5%;
+}
+body{
+   min-width:1000px;        /* Suppose you want minimum width of 1000px */
+   width: auto !important;  /* Firefox will set width as auto */
+   width:1000px;            /* As IE6 ignores !important it will set width as 1000px; */
+}
+
+.img{
+  float: left;
+  margin-right: 15px;
+  height: 250px;
+  max-width: 325px;
+  border-radius: 4px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+ <main role="main" class="container">
+    <div class="row">
+        <div class="col-md">
+         
+
+            <center><h1 class="header">{{ news.title }}</h1></center>
+            <hr class="my-4">
+            <div>
+            {%if news.image_link%}
+            <img src='{{ news.image_link }}' class="img"onerror="this.onerror=null;this.src='{% static 'images/logo.gif'%}';" alt="Event Image" class="img">
+            {% endif %}
+            </div>
+            <div>
+            {{ news.body }}
+           </div><br>
+        </div>     
+
+    </div>
+</main>
+            {% if user.is_staff %}
+          <div class="buttons">
+            <div class="button-wrapper">
+            <a href="{% url 'edit_news' news.id %}">Edit</a>
+          </div>
+          <div class="button-wrapper">
+            <a href="{% url 'delete_news' news.id %}">Delete</a>
+          </div>
+          </div>
+            {% endif %}
+
+{% endblock %}

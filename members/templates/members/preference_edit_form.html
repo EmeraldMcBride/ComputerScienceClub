@@ -1,0 +1,33 @@
+{% include 'base.html' %}
+{% load static %}
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'members/preferences.css' %}">
+    <script src="{% static 'js/members.js' %}"></script>
+</head>
+<body>
+{% block content %}
+    <div class="preference-form">
+    <div class="header">Edit Preferences</div>
+    <p>You will receive e-mails based on your preferences</p>
+      <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field }}
+          {% for error in field.errors %}
+              <p style="color: red">{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+      <div class="button-wrapper">
+        <input type="submit" align="center" style="width:200px" value="Update Preferences", class="form-button">
+      </div>
+      </form>
+    </div>
+{% endblock %}
+
+<script>
+   getPreferences({{ preference | safe }})
+</script>
+</body>
+
+</html>

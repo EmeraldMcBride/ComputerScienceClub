@@ -1,0 +1,188 @@
+{% include "base.html" %}
+{% load static %} 
+{% block content %}
+{% block head %}
+<title> COSC CLUB </title>
+<style>
+.centered {
+  position: absolute;
+  color: #d41f55;
+  top: 50%;
+  left: 50%;
+  font-size: 43px;
+  transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 5px black;
+  }
+ 
+
+.jumbotron{
+  background-color:#ffffff;
+  color:#212529;
+  padding-top:80px;
+  padding-left: 60px;
+  padding-right: 60px;
+  padding-bottom:80px;
+  border: 2px;
+  border-color: #dfe0e1;
+  border-style: solid;
+  border-radius: 25px;
+  min-width: 280px;
+  min-height: 460px;
+
+}
+#img{
+  height: 300px; 
+  min-width: 300px; 
+  max-width: 400px;
+  float:left;
+  border-radius: 4px;
+}
+
+.jumbotron:hover{
+    border-color: #d41f55;
+}
+
+.jumbotron img{
+  display:block;
+  margin-left:auto;
+  margin-right:10px;
+}
+.h2 {
+    margin-top: 10px;
+}
+.date-block{
+  top:0;
+  left: 15;
+  padding-top:25px;
+  width: 110px;
+  height: 110px;
+  background-color: black;
+  color: white;
+  border-radius: 25px 0 0 0;
+  position: absolute;
+  text-align: center;
+  font-size: 25px;
+  line-height: 30px;
+}
+
+.date-num{
+  font-size: 45px;
+
+}
+
+.container text-center{
+  margin-bottom: 20px;
+}
+</style>
+{% endblock %}
+<div style="margin-top: 70px; margin-bottom: 50px;">
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md">
+
+      {% if events %}
+        {% if events.event_id is None %}
+        <div class="jumbotron" id="tron" style="cursor: pointer;" onclick="window.location='/events/{{ events.id }}';">
+      {% else %}
+         <div class="jumbotron" id="tron" style="cursor: pointer;" onclick="window.location='/events/{{ events.event_id }}';">
+      {% endif %} 
+        <div class="date-block">
+          {{ events.start_date  | date:"b" | upper }}
+          <br>
+           <p class="date-num">{{ events.start_date  | date:"d" }}</p>
+        </div>
+      
+    <img id="img" src="{{ events.image_link }}" onerror="this.onerror=null;this.src='{% static 'images/logo.gif'%}';" alt="Event Image">
+      <h3>Featured Event:</h3>
+      <h1><strong>{{ events.title }}</strong></h1>
+      <h3><i>{{ events.start_date }} 
+      {{ events.start_time }} 
+     
+  {{ events.location }} </i></h3>
+     <p><em>{{events.description | truncatechars:475 }}</em></p>
+      
+
+    
+    </div>
+      {% else %}
+      </div>
+      <img src="/static/images/logo2.png" width="250" height="250" align="left">
+            <h1>Welcome To The <br>
+       <strong> Okanagan College
+      Computer Science Club</strong></h1>
+      {% endif %}
+    </div>
+  </div>
+  <hr>
+</main>
+
+<div class="container text-center">    
+  <br>
+  <div class="row">
+
+
+    <div class="col-sm-4">
+      <div class="imglink">
+        <a href= "{% url 'events' %}"> <img src="{% static 'images/event-photo2.jpg' %}" class="img-responsive" style="width:100%; border-radius: 25px;" alt="Image">
+        <div class="centered"><b>EVENTS</b></div></a>
+       </div>
+    
+    </div>
+
+    <div class="col-sm-4"> 
+      <div class="imglink">
+      <a href="{% url 'news' %}"><img src="{% static 'images/news-photo.jpg' %}" class="img-responsive" style="width:100%; border-radius: 25px;" alt="Image">
+      <div class="centered"><b>NEWS</b></div></a>
+      </div>
+    </div>
+    <div class="col-sm-4"> 
+      <div class="imglink">
+        <a href="{% url 'about_us' %}"><img src="{% static 'images/aboutus-photo.jpg' %}" class="img-responsive" style="width:100%; border-radius: 25px;" alt="Image">
+        <div class="centered"><b>ABOUT US</b></div></a>
+      </div> 
+    </div>
+  </div>
+</div><br>
+
+
+
+
+
+
+
+{% if user.is_authenticated %}
+{% if user.is_staff %}
+<div class="container text-center">    
+  <br>
+  <div class="row">
+    <div class="col-sm-4">
+      <a href= "events/create/" class="btn btn-lg btn-info " role="button">Create Event</a>
+      
+    </div>
+    <div class="col-sm-4"> 
+      <a href="news/create/" class="btn btn-lg btn-info" role="button">Create News</a>
+
+    </div>
+    {% if user.is_superuser %}
+    <div class="col-sm-4"> 
+      <a href="{% url 'settings' %}" class="btn btn-lg btn-info" role="button">
+        Admin Panel
+      </a>
+
+    </div>
+   
+   
+    {% endif %}
+  </div>
+</div>
+
+{% endif %}
+{% endif %}
+
+{% endblock content %}
+
+
+
+
+
+
